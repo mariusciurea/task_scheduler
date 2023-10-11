@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Task Scheduler</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Task name</th>
+          <th scope="col">Deadline</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in main_tasks %}
+            <tr>
+              <td>{{ task.name }}</td>
+              <td>{{ task.date }}</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock content %}
