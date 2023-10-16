@@ -31,16 +31,30 @@ def home(request):
     # tasks = Tasks.objects.filter(task_name__contains='masina')
     tasks = Tasks.objects.all()
     form = TaskForm()
-    print(form)
-    if request.method == 'POST':
+    # print(form)
+    if request.method == 'POST':  # if request.POST
         Tasks.objects.create(
-            task_name=request.POST.get('task'),
-            date_deadline=request.POST.get('task-deadline')
+            task_name=request.POST['task_name'],
+            date_deadline=request.POST.get('date_deadline')
         )
         return redirect('home')
     # print(tasks)
     context = {'main_tasks': tasks, 'form': form}
     return render(request, 'tasks/home.html', context)
+
+
+def task_update(request, pk):
+    tsk = Tasks.objects.get(pk=pk)
+    form = TaskForm(instance=tsk)
+    context = {'form': form}
+
+    if request.method == 'POST':
+        tsk.task_name = request.POST['task_name']
+        tsk.date_deadline = request.POST.get('date_deadline')
+        tsk.save()
+        return redirect('home')
+
+    return render(request, 'tasks/task_update.html', context)
 
 
 def delete(request, pk):

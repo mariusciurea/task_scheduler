@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_javascript jquery='full' %}
+        {{ form.media }}
+        {{ form|crispy }}
+
+        <br>
+        <button type="submit" class="btn btn-secondary">Submit</button>
+    </form>
+{% endblock content %}
