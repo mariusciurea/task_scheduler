@@ -38,19 +38,33 @@
         <tr>
           <th scope="col">Task name</th>
           <th scope="col">Deadline</th>
-          <th scope="col">Created</th>
+          <th scope="col">Time until</th>
         </tr>
       </thead>
       <tbody>
         {% for task in main_tasks %}
-            <tr>
-              <td>{{ task.task_name }}</td>
-              <td>{{ task.date_deadline }}</td>
-              <td>{{ task.date_created }}</td>
-              <td><a href="{% url 'update' task.id %}" class="btn btn-secondary">Edit</a></td>
-              <td><a href="{% url 'delete' task.id  %}" class="btn btn-secondary">Delete</a></td>
-            </tr>
+        {% now "m-d-Y" as today_date %}
+            {% if task.date_deadline|date:"m-d-Y" <= today_date %}
+                <tr class="table-danger">
+                  <td>{{ task.task_name }}</td>
+                  <td>{{ task.date_deadline|date:"m-d-Y" }}</td>
+                  <td>{{ task.date_deadline|timeuntil }}</td>
+                  <td><a href="{% url 'update' task.id %}" class="btn btn-secondary">Edit</a></td>
+                  <td><a href="{% url 'delete' task.id  %}" class="btn btn-secondary">Delete</a></td>
+                </tr>
+            {% else %}
+                <tr class="table-success">
+                  <td>{{ task.task_name }}</td>
+                  <td>{{ task.date_deadline|date:"m-d-Y" }}</td>
+                  <td>{{ task.date_deadline|timeuntil }}</td>
+                  <td><a href="{% url 'update' task.id %}" class="btn btn-secondary">Edit</a></td>
+                  <td><a href="{% url 'delete' task.id  %}" class="btn btn-secondary">Delete</a></td>
+                </tr>
+            {% endif %}
         {% endfor %}
       </tbody>
     </table>
+    <div>
+        <a href="{% url 'export-csv' %}" class="btn btn-secondary">Export</a>
+    </div>
 {% endblock content %}

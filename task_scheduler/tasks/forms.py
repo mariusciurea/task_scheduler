@@ -7,7 +7,7 @@ from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInp
 class TaskForm(ModelForm):
     class Meta:
         model = Tasks
-        fields = '__all__'
+        fields = ['task_name', 'date_deadline']
         widgets = {
             "date_deadline": DateTimePickerInput,
         }
